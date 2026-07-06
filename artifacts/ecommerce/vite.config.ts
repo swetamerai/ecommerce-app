@@ -14,8 +14,23 @@ if (Number.isNaN(port) || port <= 0) {
 
 const basePath = process.env.BASE_PATH ?? '/shop/';
 
+// Auto-detect API URL for Codespaces / local dev
+// In Replit: relative URLs work (same domain), so VITE_API_URL stays empty
+// In Codespaces: API runs on port 8080 with a different subdomain
+const codespaceName = process.env.CODESPACE_NAME;
+const codespaceDomain = process.env.GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN;
+const viteApiUrl =
+  process.env.VITE_API_URL ??
+  (codespaceName && codespaceDomain
+    ? `https://${codespaceName}-8080.${codespaceDomain}`
+    : '');
+
 export default defineConfig({
   base: basePath,
+  define: {
+    // Expose computed API URL to the frontend bundle
+    'import.meta.env.VITE_API_URL': JSON.stringify(viteApiUrl),
+  },
   plugins: [
     react(),
     tailwindcss(),

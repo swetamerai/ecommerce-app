@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { Route, Switch, Router as WouterRouter } from 'wouter';
+import { setBaseUrl } from '@workspace/api-client-react';
 
 import Home from '@/pages/storefront/Home';
 import ProductDetail from '@/pages/storefront/ProductDetail';
@@ -11,6 +12,9 @@ import OrderSuccess from '@/pages/storefront/OrderSuccess';
 import AdminDashboard from '@/pages/admin/AdminDashboard';
 import AdminProducts from '@/pages/admin/AdminProducts';
 import AdminOrders from '@/pages/admin/AdminOrders';
+
+// Set API base URL (empty string = same-origin/relative, set for Codespaces/external)
+setBaseUrl(import.meta.env.VITE_API_URL || '');
 
 const queryClient = new QueryClient();
 
