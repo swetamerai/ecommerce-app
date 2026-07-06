@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "Laravel Developer Resume"
+version = "1.0.0"
+id = "artifacts/resume"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 22792
+
+[services.development]
+run = "pnpm --filter @workspace/resume run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/resume", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/resume/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "22792"
+BASE_PATH = "/"
